@@ -46,6 +46,9 @@
             top: 20px;
             right: 20px;
             animation: rotate 2s linear infinite;
+            opacity: 0;
+            filter: blur(10px);
+            transition: opacity 1s, filter 2s;
         }
 
         .star {
@@ -54,6 +57,33 @@
             height: 10px;
             background: yellow;
             animation: twinkle 1s infinite alternate;
+            opacity: 0;
+            filter: blur(5px);
+            transition: opacity 1s, filter 2s;
+        }
+
+        .image-container {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .retro-image {
+            width: 100px;
+            height: 100px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0;
+            filter: blur(10px);
+            transition: opacity 1s, filter 2s;
+        }
+
+        .loading-text {
+            display: block;
+            margin: 10px 0;
+            color: #ff00ff;
+            font-weight: bold;
         }
 
         @keyframes glow {
@@ -88,6 +118,14 @@
             position: fixed;
             bottom: 0;
         }
+
+        .press-enter {
+            font-size: 1.5em;
+            color: #ff00ff;
+            text-shadow: 2px 2px #00ffff;
+            margin-top: 20px;
+            animation: rainbow 3s linear infinite;
+        }
     </style>
 </head>
 <body>
@@ -96,6 +134,13 @@
         <h1>Welcome to My Website!</h1>
         <div class="counter">Visitors: 1337</div>
         <p>🌟 Best viewed in Internet Explorer 6.0 🌟</p>
+        <div class="image-container">
+            <div class="retro-image" style="background-image: url('data:image/gif;base64,R0lGODlhPAA8AIAAAAAAAP///yH5BAAAAAAALAAAAAA8ADwAAAJHhI+py+0Po5y02ouz3rz7D4biSJbmiabqyrbuC8fyTNf2jef6zvf+DwwKh8Si8YhMKpfMpvMJjUqn1Kr1is1qt9yu9wsGFQA7')"></div>
+            <div class="retro-image" style="background-image: url('data:image/gif;base64,R0lGODlhPAA8AIAAAAAAAP///yH5BAAAAAAALAAAAAA8ADwAAAJHhI+py+0Po5y02ouz3rz7D4biSJbmiabqyrbuC8fyTNf2jef6zvf+DwwKh8Si8YhMKpfMpvMJjUqn1Kr1is1qt9yu9wsGFQA7')"></div>
+            <div class="retro-image" style="background-image: url('data:image/gif;base64,R0lGODlhPAA8AIAAAAAAAP///yH5BAAAAAAALAAAAAA8ADwAAAJHhI+py+0Po5y02ouz3rz7D4biSJbmiabqyrbuC8fyTNf2jef6zvf+DwwKh8Si8YhMKpfMpvMJjUqn1Kr1is1qt9yu9wsGFQA7')"></div>
+        </div>
+        <span class="loading-text" style="display: none;">Loading images... Please wait...</span>
+        <div class="press-enter">Press ENTER to load images!</div>
     </div>
     <div class="marquee">
         <marquee>Welcome to my awesome website! This site is under construction! Check back soon! 🎮 🎨 🎵</marquee>
@@ -111,6 +156,33 @@
             star.style.animationDelay = Math.random() * 2 + 's';
             document.body.appendChild(star);
         }
+
+        // Add enter key listener
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                // Show loading text
+                document.querySelector('.loading-text').style.display = 'block';
+                document.querySelector('.press-enter').style.display = 'none';
+
+                // Show all elements with initial blur
+                document.querySelectorAll('.star, .construction, .retro-image').forEach(el => {
+                    el.style.opacity = '1';
+                });
+
+                // Simulate loading delay
+                setTimeout(() => {
+                    // Remove blur effect gradually
+                    document.querySelectorAll('.star, .construction, .retro-image').forEach(el => {
+                        el.style.filter = 'blur(0)';
+                    });
+                    
+                    // Hide loading text after transition
+                    setTimeout(() => {
+                        document.querySelector('.loading-text').style.display = 'none';
+                    }, 2000);
+                }, 1000);
+            }
+        });
     </script>
 </body>
 </html> 
